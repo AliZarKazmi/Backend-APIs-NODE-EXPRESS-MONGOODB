@@ -10,7 +10,7 @@ const getAllProductStatic = async (req,res)=>{
     }).sort("name") // sort the "name" on asscending order 
       
     // sort the "name" on descending order and aslo sort "price" on asscending order
-    //.sort("-name price")
+    //.sort("-name price") 
 
     res.status(200).json({product, nbHits:product.length})
 }
