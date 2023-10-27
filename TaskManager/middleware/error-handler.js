@@ -1,7 +1,8 @@
 //Sometimes we miss some error handling , so Express default error handler
 //handle that thing .To cover such error which express handles 
-// we write some custome error handler for that scenarios
+// we write some custome error handler for that scenarios  
 const { CustomAPIError } = require('../errors/custom-error')
+
 const errorHandlerMiddleware = (err, req, res, next) => {
   if (err instanceof CustomAPIError) {
     return res.status(err.statusCode).json({ msg: err.message })
