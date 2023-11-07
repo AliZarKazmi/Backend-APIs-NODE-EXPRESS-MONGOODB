@@ -73,18 +73,18 @@ const getAllProduct = async (req,res)=>{
         }
 
          //converting the values which understand by mongoose
-        const regEx = /\b( <|>|>=|<=|=)\b/g
-        let filter = numericFilters.replace(
+        const regEx = /\b( < | > | > = | < = | = )\b/g
+        let filters = numericFilters.replace(
             regEx,
             (match)=>`-${operatorMap[match]}-`
             )
 
-            console.log(filter)
+            console.log(filters)
 
             //define the attributes which use Number values in db
             const options = ['price','rating']
 
-            filter = filter.split(',').forEach((item)=>{
+            filters = filters.split(',').forEach((item)=>{
                 const [field,operator,value] = item.split('-')
                 if(options.includes(field))
                 {
@@ -92,7 +92,8 @@ const getAllProduct = async (req,res)=>{
                 }
             })
     }
-
+//output: {price:{'$gt':40},rating:{'$gte':4}} =>(but in my code I am getting empty object i.e {})    
+console.log(queryObject) 
 
 
 
