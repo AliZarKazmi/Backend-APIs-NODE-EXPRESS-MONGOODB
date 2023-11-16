@@ -17,7 +17,7 @@
 
 //"Payload" basically contains the data of the user i.e id, name , email etc
 
-const CustomAPIError = require("../errors/custom-error");
+const {UnauthenticatedError} = require("../errors");
 const jwt = require("jsonwebtoken");
 
 const authenticationMiddleware = async (req, res, next) => {
@@ -29,7 +29,7 @@ const authenticationMiddleware = async (req, res, next) => {
   //token validation checks i.e if token does not exist or the Synatx/format is different
   //in our case the format of token is that it must start with "Bearer with a single space"
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new CustomAPIError("No token Provided", 401);
+    throw new UnauthenticatedError("No token Provided");
   }
 
   //we are extracting only the token for that we split in on bases of a 'single space'
@@ -56,9 +56,8 @@ const authenticationMiddleware = async (req, res, next) => {
     req.user = { id, username };
     next();
   } catch (err) {
-    throw new CustomAPIError(
-      "Invalid Token! Not authorized to access this route",
-      401
+    throw new UnauthenticatedError(
+      "Invalid Token! Not authorized to access this route"
     );
   }
 };

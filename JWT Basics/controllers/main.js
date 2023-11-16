@@ -17,7 +17,7 @@
 
 //"Payload" basically contains the data of the user i.e id, name , email etc
 
-const CustomAPIError = require("../errors/custom-error");
+const {BadRequestError} = require("../errors");
 const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
@@ -26,7 +26,7 @@ const login = async (req, res) => {
 
   //check/validation in the controller
   if (!username || !password) {
-    throw new CustomAPIError("Please provide email and password", 400);
+    throw new BadRequestError("Please provide email and password");
   }
   //creating JWT tokken
 
