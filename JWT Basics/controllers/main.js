@@ -19,7 +19,6 @@
 
 const {BadRequestError} = require("../errors");
 const jwt = require("jsonwebtoken");
-
 const login = async (req, res) => {
   const { username, password } = req.body;
   console.log(username, password);
