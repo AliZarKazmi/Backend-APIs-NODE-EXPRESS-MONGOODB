@@ -1,4 +1,6 @@
 const mongoose =require('mongoose')
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 
 const UserSchema = new mongoose.Schema({
     name:{
@@ -25,12 +27,49 @@ const UserSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        trim:true,
-        lowercase:true,
+        // trim:true,
+        // lowercase:true,
         required:[true, "Please provide the Password"],
         minlength:6,
-        maxlength:12
     }
 })
 
+
+/** */
+    
+    //Hashing Method # 2 (Mthod 1 is in the "auth.js->controller") 
+
+    //Note :
+        //We are hashing the password using the "Mongoose middleware "
+
+        //before storing password as a String we need to store it as a HashString Password
+        //it works like a middleware 
+
+/** */
+
+//Encrypting Password 
+UserSchema.pre('save',async function(next){
+    const salt = await bcrypt.genSalt(10)
+    this.password = await bcrypt.hash(this.password,salt)
+    next()
+})
+
+
+//Instance Method-> it is like creating a custom function in mongoose
+// UserSchema.methods.getName = function(){
+//     return this.name
+// } 
+
+//defining a function which generate token 
+UserSchema.methods.createJWT = function(){
+    return jwt.sign({userId:this._id, name :this.name},process.env.JWT_SECRET,{expiresIn:process.env.JWT_LIFETIME})
+}
+
+
+//Decrypting Password / Compairing Password 
+UserSchema.methods.checkPassword = async function(candidatePassword){
+    const isMatch = await bcrypt.compare(candidatePassword,this.password)
+    return isMatch
+
+}
 module.exports = mongoose.model('User',UserSchema)

@@ -26,11 +26,14 @@ Email Validation Regex
 
 #### Register User
 
-- Validate - name, email, password - with Mongoose
-- Hash Password (with bcryptjs)
-- Save User
+- Validate - name, email, password - with Mongoose Validator 
+- Hash Password (with bcryptjs) -> Using the Mongoose Middleware i.e "User.js -> models"
+- Save User 
 - Generate Token
 - Send Response with Token
+
+### Generating Security Key for JWT:
+- Use website "allkeysgenerators.com" 
 
 #### Login User
 
