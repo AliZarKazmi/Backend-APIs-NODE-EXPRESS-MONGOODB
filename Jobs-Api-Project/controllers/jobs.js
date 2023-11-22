@@ -1,3 +1,8 @@
+const jobModel = require("../models/Job")
+const {StatusCodes} = require('http-status-codes')
+const {BadRequestError,NotFoundError} = require('../errors')
+
+
 const getAllJobs = async(req,res)=>{
     res.send('Get all jobs')
 }
@@ -7,7 +12,13 @@ const getJob = async(req,res)=>{
 }
 
 const createJob = async(req,res)=>{
-    res.send('Create job')
+    console.log(req.body)
+    //creating a new property on req.body i.e "createdBy" -> this name should be same as we defined in Job models
+    req.body.createdBy = req.user.userId
+    
+    console.log(req.body)
+    const job =  await jobModel.create(req.body) 
+    res.status(StatusCodes.CREATED).json({job})
 }
 
 const updateJob = async(req,res)=>{
