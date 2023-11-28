@@ -5,6 +5,7 @@ const {BadRequestError, UnauthenticatedError} = require('../errors')
 // const jwt = require("jsonwebtoken")
 
 
+
 const register = async(req,res)=>{
     
     //FOR THE TIME BEING I want to do mongoo my validation , that's why I am passing 
